@@ -3,8 +3,15 @@ from langchain_openai import ChatOpenAI
 import streamlit as st
 from langchain.prompts import PromptTemplate
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-llm = ChatOpenAI(model="gpt-5",api_key=OPENAI_API_KEY)
+st.title("Travel App")
+
+api_key = st.text_input("Enter your OpenAI API Key", type="password")
+
+if not api_key:
+    st.warning("Please enter your OpenAI API key to continue")
+    st.stop()
+
+llm = ChatOpenAI(model="gpt-4", api_key=api_key)
 prompt_template = PromptTemplate(
     input_variables = ["city","month","language","budget"],
     template = """
@@ -17,8 +24,6 @@ prompt_template = PromptTemplate(
     Enjoy your trip!
     """
 )
-
-st.title("Travel App")
 
 city = st.text_input("Enter the city")
 month = st.text_input("Enter the month")
